@@ -5,7 +5,7 @@ import NextAuth from "next-auth"
 // import Auth0 from "next-auth/providers/auth0"
 // import Authentik from "next-auth/providers/authentik"
 // import AzureAD from "next-auth/providers/azure-ad"
-// import AzureB2C from "next-auth/providers/azure-ad-b2c"
+import AzureADB2C from "next-auth/providers/azure-ad-b2c"
 // import Battlenet from "next-auth/providers/battlenet"
 // import Box from "next-auth/providers/box"
 // import BoxyHQSAML from "next-auth/providers/boxyhq-saml"
@@ -22,7 +22,7 @@ import NextAuth from "next-auth"
 // import Foursquare from "next-auth/providers/foursquare"
 // import Freshbooks from "next-auth/providers/freshbooks"
 // import Fusionauth from "next-auth/providers/fusionauth"
-import GitHub from "next-auth/providers/github"
+// import GitHub from "next-auth/providers/github"
 // import Gitlab from "next-auth/providers/gitlab"
 // import Google from "next-auth/providers/google"
 // import Hubspot from "next-auth/providers/hubspot"
@@ -75,7 +75,27 @@ export const config = {
     // Auth0,
     // Authentik,
     // AzureAD,
-    // AzureB2C,
+    AzureADB2C(({
+      id: 'azure-ad-b2c',
+      name: 'Azure AD B2C',
+      tenantId: process.env.AZURE_AD_B2C_TENANT_ID as string,
+      clientId: process.env.AZURE_AD_B2C_CLIENT_ID as string,
+      // clientSecret: process.env.AZURE_AD_B2C_CLIENT_SECRET as string,
+      primaryUserFlow: process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW,
+      issuer: `https://${process.env.AZURE_AD_B2C_TENANT_ID}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_GUID}/v2.0/`,
+      wellKnown: `https://${process.env.AZURE_AD_B2C_TENANT_ID}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_ID}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/v2.0/.well-known/openid-configuration`,
+      authorization: {
+        url: `https://${process.env.AZURE_AD_B2C_TENANT_ID}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_ID}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/oauth2/v2.0/authorize`,
+        params: {
+          scope: `offline_access openid ${process.env.AZURE_AD_B2C_CLIENT_ID}`,
+        },
+      },
+      token: `https://${process.env.AZURE_AD_B2C_TENANT_ID}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_ID}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/oauth2/v2.0/token`,
+      checks: ['pkce'],
+      client: {
+        token_endpoint_auth_method: 'none',
+      },
+    })),
     // Battlenet,
     // Box,
     // BoxyHQSAML,
@@ -92,7 +112,7 @@ export const config = {
     // Foursquare,
     // Freshbooks,
     // Fusionauth,
-    GitHub,
+    // GitHub,
     // Gitlab,
     // Google,
     // Hubspot,
@@ -135,14 +155,23 @@ export const config = {
   ],
   basePath: "/auth",
   callbacks: {
-    authorized({ request, auth }) {
+    async authorized({ request, auth }) {
       const { pathname } = request.nextUrl
       if (pathname === "/middleware-example") return !!auth
       return true
     },
-    jwt({ token, trigger, session }) {
+    jwt({ token, trigger, session, account }) {
       if (trigger === "update") token.name = session.user.name
+      if (account) {
+        token.accessToken = account.access_token
+      }
       return token
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        accessToken: token.accessToken,
+      };
     },
   },
 } satisfies NextAuthConfig
