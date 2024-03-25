@@ -1,112 +1,74 @@
-> The example repository is maintained from a [monorepo](https://github.com/nextauthjs/next-auth/tree/main/apps/examples/nextjs). Pull Requests should be opened against [`nextauthjs/next-auth`](https://github.com/nextauthjs/next-auth).
+# Next.js with NextAuth and Azure AD B2C Example
 
-<p align="center">
-   <br/>
-   <a href="https://authjs.dev" target="_blank"><img width="150px" src="https://authjs.dev/img/logo/logo-sm.png" /></a>
-   <h3 align="center">NextAuth.js Example App</h3>
-   <p align="center">
-   Open Source. Full Stack. Own Your Data.
-   </p>
-   <p align="center" style="align: center;">
-      <a href="https://npm.im/next-auth">
-        <img alt="npm" src="https://img.shields.io/npm/v/next-auth?color=green&label=next-auth">
-      </a>
-      <a href="https://bundlephobia.com/result?p=next-auth-example">
-        <img src="https://img.shields.io/bundlephobia/minzip/next-auth?label=next-auth" alt="Bundle Size"/>
-      </a>
-      <a href="https://www.npmtrends.com/next-auth">
-        <img src="https://img.shields.io/npm/dm/next-auth?label=next-auth%20downloads" alt="Downloads" />
-      </a>
-      <a href="https://npm.im/next-auth">
-        <img src="https://img.shields.io/badge/npm-TypeScript-blue" alt="TypeScript" />
-      </a>
-   </p>
-</p>
+This repository provides a practical example of integrating Next.js version 14, NextAuth.js version 5 (beta version, soon to be [Auth.js](https://authjs.dev/)), and Azure AD B2C for Single Page Applications with Signin User Flow. 
 
-## Overview
+The implementation of Login, Logout, and Refresh Token Rotation features is designed to help other developers get a quick start.
 
-NextAuth.js is a complete open source authentication solution.
-
-This is an example application that shows how `next-auth` is applied to a basic Next.js app.
-
-The deployed version can be found at [`next-auth-example.vercel.app`](https://next-auth-example.vercel.app)
-
-### About NextAuth.js
-
-NextAuth.js is an easy to implement, full-stack (client/server) open source authentication library originally designed for [Next.js](https://nextjs.org) and [Serverless](https://vercel.com). Our goal is to [support even more frameworks](https://github.com/nextauthjs/next-auth/issues/2294) in the future.
-
-Go to [next-auth.js.org](https://authjs.dev) for more information and documentation.
-
-> _NextAuth.js is not officially associated with Vercel or Next.js._
+For the NextAuth.js Upgrade Guide (v5) click [here](https://authjs.dev/guides/upgrade-to-v5).
 
 ## Getting Started
 
-### 1. Clone the repository and install dependencies
+### Configure Azure AD B2C
+
+Follow the instructions to obtain the necessary credentials:
+
+- [Create a Tenant](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
+- [Register a Single Page Application](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-spa)
+- [Create a SignIn User Flow](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flow)
+
+### Setup and Run
+
+1. **Clone this repository:**
 
 ```
-git clone https://github.com/nextauthjs/next-auth-example.git
-cd next-auth-example
-npm install
+git clone https://github.com/karoldavid/next-auth-azure-ad-b2c-example.git
 ```
 
-### 2. Configure your local environment
-
-Copy the .env.local.example file in this directory to .env.local (which will be ignored by Git):
+2. **Install dependencies:**
 
 ```
-cp .env.local.example .env.local
+cd next-auth-azure-ad-b2c-example
+yarn
 ```
 
-Add details for one or more providers (e.g. Google, Twitter, GitHub, Email, etc).
+3. **Configure your Azure AD B2C settings:**
 
-#### Database
+Update the [.env.local.example](./.env.local.example) file with your B2C configuration and rename it to `.env.local`.
 
-A database is needed to persist user accounts and to support email sign in. However, you can still use NextAuth.js for authentication without a database by using OAuth for authentication. If you do not specify a database, [JSON Web Tokens](https://jwt.io/introduction) will be enabled by default.
-
-You **can** skip configuring a database and come back to it later if you want.
-
-For more information about setting up a database, please check out the following links:
-
-- Docs: [authjs.dev/reference/core/adapters](https://authjs.dev/reference/core/adapters)
-
-### 3. Configure Authentication Providers
-
-1. Review and update options in `auth.ts` as needed.
-
-2. When setting up OAuth, in the developer admin page for each of your OAuth services, you should configure the callback URL to use a callback path of `{server}/api/auth/callback/{provider}`.
-
-e.g. For Google OAuth you would use: `http://localhost:3000/api/auth/callback/google`
-
-A list of configured providers and their callback URLs is available from the endpoint `api/auth/providers`. You can find more information at https://authjs.dev/getting-started/providers/oauth-tutorial
-
-1. You can also choose to specify an SMTP server for passwordless sign in via email.
-
-### 4. Start the application
-
-To run your site locally, use:
+4. **Run the application:**
 
 ```
 npm run dev
 ```
 
-To run it in production mode, use:
+5. Visit `http://localhost:3000` in your browser.
 
-```
-npm run build
-npm run start
-```
+## Implemented Features
 
-### 5. Preparing for Production
+### Login
 
-Follow the [Deployment documentation](https://authjs.dev/getting-started/deployment)
+- [auth.ts](./auth.ts)
 
-## Acknowledgements
+### Logout
 
-<a href="https://vercel.com?utm_source=nextauthjs&utm_campaign=oss">
-<img width="170px" src="https://raw.githubusercontent.com/nextauthjs/next-auth/main/docs/static/img/powered-by-vercel.svg" alt="Powered By Vercel" />
-</a>
-<p align="left">Thanks to Vercel sponsoring this project by allowing it to be deployed for free for the entire NextAuth.js Team</p>
+- [components/auth-components.tsx](./components/auth-components.tsx)
+- [app/signout/page.tsx](./app/signout/page.tsx)
+- [components/signout.tsx](./components/signout.tsx)
+
+### Refresh Token Rotation
+
+- [auth.ts](./auth.ts)
+
+## Resources
+
+The following resources were helpful in implementing these features:
+
+- Original Repository: [NextAuth.js Example App](https://github.com/nextauthjs/next-auth-example)
+ - NextAuth.js Upgrade Guide (v5): https://authjs.dev/guides/upgrade-to-v5
+- Login: [NextAuth.js issue comment](https://github.com/nextauthjs/next-auth/issues/7810#issuecomment-1680240435)
+- Logout: [How to configure Azure B2C with Next.js](https://benjaminwfox.com/blog/tech/how-to-configure-azure-b2c-with-nextjs#add-signout)
+- Refresh Token Rotation: [NextAuth.js Refresh Token Rotation Tutorial](https://next-auth.js.org/v3/tutorials/refresh-token-rotation), [NextAuth Refresh Tokens Example](https://github.com/lawrencecchen/next-auth-refresh-tokens/blob/main/pages/api/auth/%5B...nextauth%5D.js)
 
 ## License
 
-ISC
+This project is licensed under the terms of the MIT license. For more details, see the [LICENSE](./LICENSE) file in the repository.
