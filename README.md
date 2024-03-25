@@ -1,4 +1,4 @@
-# Next.js with NextAuth and Azure AD B2C Example
+# Next.js with NextAuth.js and Azure AD B2C Example
 
 This repository provides a practical example of integrating Next.js version 14, NextAuth.js version 5 (beta version, soon to be [Auth.js](https://authjs.dev/)), and Azure AD B2C for Single Page Applications with Signin User Flow. 
 
@@ -14,7 +14,7 @@ Follow the instructions to obtain the necessary credentials:
 
 - [Create a Tenant](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
 - [Register a Single Page Application](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-spa)
-- [Create a SignIn User Flow](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flow)
+- [Create a SignIn User Flow](https://learn.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows?pivots=b2c-user-flow)
 
 ### Setup and Run
 
