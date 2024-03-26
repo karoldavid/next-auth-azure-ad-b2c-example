@@ -67,7 +67,7 @@ The following resources were helpful in implementing these features:
  - NextAuth.js Upgrade Guide (v5): https://authjs.dev/guides/upgrade-to-v5
 - Login: [NextAuth.js issue comment](https://github.com/nextauthjs/next-auth/issues/7810#issuecomment-1680240435)
 - Logout: [Next Auth Azure Ad B2C signout problem session kills on app but not on azure AD](https://stackoverflow.com/questions/74557856/next-auth-azure-ad-b2c-signout-problem-session-kills-on-app-but-not-on-azure-ad)
-- Refresh Token Rotation: [NextAuth.js Refresh Token Rotation Tutorial](https://next-auth.js.org/v3/tutorials/refresh-token-rotation), [NextAuth Refresh Tokens Example](https://github.com/lawrencecchen/next-auth-refresh-tokens/blob/main/pages/api/auth/%5B...nextauth%5D.js)
+- Refresh Token Rotation: [NextAuth Refresh Tokens Example](https://github.com/lawrencecchen/next-auth-refresh-tokens/blob/main/pages/api/auth/%5B...nextauth%5D.js)
 
 ## License
 
