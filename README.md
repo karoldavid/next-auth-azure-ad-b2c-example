@@ -71,4 +71,4 @@ The following resources were helpful in implementing these features:
 
 ## License
 
-This project is licensed under the terms of the MIT license. For more details, see the [LICENSE](./LICENSE) file in the repository.
+This project is licensed under the terms of the MIT license. For more details, see the [LICENSE](./LICENSE.md) file in the repository.
